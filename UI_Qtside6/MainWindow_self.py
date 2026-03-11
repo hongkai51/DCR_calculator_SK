@@ -1,6 +1,12 @@
 import sys
 import os
 
+# 添加项目根目录到 sys.path，确保模块导入正常工作
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_project_root = os.path.dirname(_current_dir)
+if _project_root not in sys.path:
+    sys.path.insert(0, _project_root)
+
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QSizePolicy, QHBoxLayout, QPushButton
@@ -15,14 +21,14 @@ from source.calculator_service import (
     format_input_error_display,
     format_target_calculation_error,
 )
-from shining_glow_title import SmoothBlueCyanGlowTitle
-from FloatingBotton import FloatingLabel_Btn
-from UnderlineEdit import UnderlineEdit
-from ResultCard import ResultCard
-from floating_preset_label import FloatingPresetLabel
+from UI_Qtside6.shining_glow_title import SmoothBlueCyanGlowTitle
+from UI_Qtside6.FloatingBotton import FloatingLabel_Btn
+from UI_Qtside6.UnderlineEdit import UnderlineEdit
+from UI_Qtside6.ResultCard import ResultCard
+from UI_Qtside6.floating_preset_label import FloatingPresetLabel
 
 current_dir = os.path.dirname(__file__)
-icon_path = os.path.join(current_dir, "..", "asset", "icon", "aquarius.png")
+icon_path = os.path.join(current_dir, "..", "asset", "icon", "tower.svg")
 icon_path = os.path.abspath(icon_path)
 
 
@@ -305,6 +311,29 @@ class XIAO_LAN_Window(QWidget):
         if hasattr(self, 'result_card') and self.result_card:
             self.result_card.close()
         e.accept()
+
+    def hideEvent(self, e):
+        """窗口隐藏时同时隐藏 ResultCard"""
+        super().hideEvent(e)
+        if hasattr(self, 'result_card') and self.result_card:
+            self._result_card_was_visible = self.result_card.isVisible()
+            self.result_card.hide()
+
+    def showEvent(self, e):
+        """窗口显示时恢复 ResultCard 状态"""
+        super().showEvent(e)
+        if hasattr(self, 'result_card') and self.result_card:
+            if getattr(self, '_result_card_was_visible', False):
+                self.result_card.show_card()
+
+    def changeEvent(self, e):
+        """窗口状态变化时处理 ResultCard"""
+        super().changeEvent(e)
+        if hasattr(self, 'result_card') and self.result_card and self.result_card.isVisible():
+            # 当主窗口激活时，将 ResultCard 也提到前面，但不强制置顶
+            if self.isActiveWindow():
+                self.result_card.raise_()
+                self.raise_()
 
     def create_right_floating_labels(self):
         labels_data = [

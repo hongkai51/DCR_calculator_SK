@@ -11,7 +11,7 @@ class ResultCard(QWidget):
     def __init__(self, main_window):
         super().__init__()
         self.main_window = main_window
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
         self.setFixedHeight(450)
@@ -193,6 +193,14 @@ class ResultCard(QWidget):
     def is_animating(self):
         return (self.anim_geo and self.anim_geo.state() == QAbstractAnimation.Running) or \
                (self.anim_opacity and self.anim_opacity.state() == QAbstractAnimation.Running)
+
+    def changeEvent(self, e):
+        """ResultCard 被激活时，同步激活主窗口"""
+        super().changeEvent(e)
+        if self.isActiveWindow() and self.main_window:
+            # 当 ResultCard 被点击激活时，把主窗口也提到前面
+            self.main_window.raise_()
+            self.raise_()
 
 class GradientLabel(QLabel):
     def __init__(self, text="", parent=None):
