@@ -1,6 +1,6 @@
 # DCR Calculator（线圈直流电阻计算器）
 
-<div align="center">
+<div align="left">
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython/)
@@ -9,7 +9,7 @@
 
 **一款专为电源/磁性元件工程师设计的桌面工具，用于快速推算线圈规格与理论DCR值**
 
-[特性](#核心特性) • [快速开始](#快速开始) • [使用指南](#使用指南) • [技术架构](#技术架构) • [项目结构](#项目结构)
+ • [快速开始](#快速开始) • [使用指南](#使用指南) • [技术架构](#技术架构) • [项目结构](#项目结构)
 
 </div>
 
@@ -116,8 +116,8 @@ python -m UI_Qtside6.MainWindow_self
 #### 场景1：正向计算（验证现有线圈DCR）
 
 1. **输入参考料号**：`PRT0530-XXXM-XX` → 自动解析为宽5.5mm × 高3.0mm
-2. **输入线圈规格**：`0.XX*X.X*X.X*X.XX`
-3. **点击计算** → 右侧显示DCR结果（示例：XX.XXX mΩ，范围XX.XX~XX.XX mΩ）
+2. **输入线圈规格**：`0.XX*X.XX*X.XX*X.XX`
+3. **点击计算** → 右侧显示DCR结果（示例：XX.XX mΩ，范围XX.XX~XX.XX mΩ）
 
 #### 场景2：反向推演（为新设计选型）
 
@@ -161,6 +161,7 @@ python -m UI_Qtside6.MainWindow_self
 │  └─────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ```
+---
 
 ### 关键技术栈
 
@@ -172,6 +173,9 @@ python -m UI_Qtside6.MainWindow_self
 | 视觉规范 | Catppuccin Mocha | 护眼深色配色方案 |
 
 ### 核心类图
+
+<details>
+<summary>📁 点击展开核心结构</summary>
 
 ```
 XIAO_LAN_Window (主窗口)
@@ -185,8 +189,12 @@ XIAO_LAN_Window (主窗口)
 ```
 
 ---
+</details>
 
 ## 项目结构
+
+<details>
+<summary>📁 点击展开目录结构</summary>
 
 ```
 DCR_calculator_SK/
@@ -248,6 +256,8 @@ DCR_calculator_SK/
     └── PopupDialog.py                # 动画弹窗演示示例
 ```
 
+</details>
+
 ---
 
 ## 算法原理
@@ -299,7 +309,7 @@ from UI_Qtside6.ResultCard import ResultCard
 
 # 创建浮动标签输入框
 edit = UnderlineEdit("线圈规格", parent)
-edit.setText("X.XX*X.X*X.X*X.XX")
+edit.setText("X.XX*X.XX*X.XX*X.XX")
 
 # 创建浮动按钮
 btn = FloatingLabel_Btn("计算", icon_path="asset/icon/abacus.svg")
@@ -355,7 +365,7 @@ def calculate_new_core_dcr(coil, product_size) -> tuple[float, float, float]:
 
 ```bash
 # 1. Fork 并克隆
-git clone <仓库地址>
+git clone https://github.com/l4runner/DCR_calculator_SK
 
 # 2. 创建特性分支
 git checkout -b feature/new-feature
@@ -398,7 +408,7 @@ in the Software without restriction...
 
 | 方式 | 信息 |
 |------|------|
-| 项目主页 | <仓库主页链接> |
+| 项目主页 | https://github.com/l4runner/DCR_calculator_SK |
 | 问题反馈 | [Issues页面](<issues链接>) |
 
 ---
